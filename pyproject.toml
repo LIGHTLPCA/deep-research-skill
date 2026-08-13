@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "light-lpca-deep-research"
+version = "0.1.0"
+description = "Deep Research, Fact Verification & Anti-Hallucination Engine for LIGHT LPCA & AI Agents"
+readme = "README.md"
+authors = [
+  { name = "LIGHT LPCA Community", email = "community@lightlpca.com" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.28.0",
+    "beautifulsoup4>=4.11.0",
+    "urllib3>=1.26.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.20.0",
+]
+
+[project.scripts]
+lpca-research = "lpca_deep_research.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/LIGHT-LPCA/light-lpca-deep-research"
+"Bug Tracker" = "https://github.com/LIGHT-LPCA/light-lpca-deep-research/issues"
