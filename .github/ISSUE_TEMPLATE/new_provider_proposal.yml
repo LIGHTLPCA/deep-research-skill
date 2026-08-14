@@ -1,0 +1,23 @@
+name: 🔌 New Search Provider / Plugin Proposal
+description: Propose a new search provider (SearXNG, Tavily, Brave) or output exporter.
+title: "[PROVIDER/PLUGIN]: "
+labels: ["good first issue", "plugin"]
+body:
+  - type: markdown
+    attributes:
+      value: Propose a new search engine integration or export plugin!
+  - type: input
+    id: provider_name
+    attributes:
+      label: Search Provider / Plugin Name
+      placeholder: e.g. SearXNG, Tavily API, ArXiv PDF Scraper
+    validations:
+      required: true
+  - type: textarea
+    id: overview
+    attributes:
+      label: Technical Overview
+      description: How will this provider/plugin interface with WebScraper or Synthesizer?
+      placeholder: Explain API endpoints or scraping strategy...
+    validations:
+      required: true
