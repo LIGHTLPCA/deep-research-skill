@@ -1,5 +1,5 @@
 """
-Example script demonstrating programatic usage of LIGHT LPCA Deep Research Engine.
+Example script demonstrating programmatic usage of the Deep Research Skill engine.
 """
 
 import sys
@@ -8,19 +8,19 @@ import sys
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from lpca_deep_research import LPCAResearchBridge
+from lpca_deep_research import DeepResearchAgent
 
 
 def run_demo():
-    topic = "LIGHT LPCA Neural Memory & BYOK AI Router"
+    topic = "Large Language Model Hallucination & Fact Verification Techniques"
 
     print("==================================================")
-    print("      LIGHT LPCA Deep Research Engine Demo        ")
+    print("         Deep Research Skill — Live Demo          ")
     print("==================================================")
     print(f"Target Research Topic: {topic}\n")
 
-    bridge = LPCAResearchBridge(max_queries_per_dimension=1, max_pages_per_query=2)
-    report = bridge.run_research(topic)
+    agent = DeepResearchAgent(max_queries_per_dimension=1, max_pages_per_query=2)
+    report = agent.run(topic)
 
     print("--- Audit & Summary Stats ---")
     print(f"Confidence Score : {report.confidence_score}%")

@@ -3,12 +3,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "light-lpca-deep-research"
+name = "deep-research-skill"
 version = "0.1.0"
-description = "Deep Research, Fact Verification & Anti-Hallucination Engine for LIGHT LPCA & AI Agents"
+description = "Deep Research, Fact Verification & Anti-Hallucination Engine for AI Agents"
 readme = "README.md"
 authors = [
-  { name = "LIGHT LPCA Community", email = "community@lightlpca.com" }
+  { name = "Deep Research Skill Contributors" }
 ]
 license = { text = "MIT" }
 classifiers = [
@@ -34,8 +34,8 @@ dev = [
 ]
 
 [project.scripts]
-lpca-research = "lpca_deep_research.cli:main"
+deep-research = "lpca_deep_research.cli:main"
 
 [project.urls]
-"Homepage" = "https://github.com/LIGHT-LPCA/light-lpca-deep-research"
-"Bug Tracker" = "https://github.com/LIGHT-LPCA/light-lpca-deep-research/issues"
+"Homepage" = "https://github.com/LIGHTLPCA/deep-research-skill"
+"Bug Tracker" = "https://github.com/LIGHTLPCA/deep-research-skill/issues"

@@ -1,19 +1,27 @@
 """
-LIGHT LPCA Research Bridge.
-Connects the Deep Research Engine with LIGHT LPCA BYOK router and custom AI agents.
+Deep Research Agent — High-Level Orchestrator.
+Connects the Deep Research Engine with any AI backend:
+LIGHT LPCA (BYOK), OpenAI, Claude, Groq, Ollama, or custom LLMs.
 """
 
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from .planner import ResearchPlanner
-from .scraper import WebScraper, ScrapedPage
+from .scraper import WebScraper
 from .auditor import FactAuditor
 from .synthesizer import ResearchReportSynthesizer, ResearchReport
 
 
-class LPCAResearchBridge:
+class DeepResearchAgent:
     """
-    High-level orchestrator class for executing full multi-hop research workflows
-    within LIGHT LPCA AI Agents or standalone applications.
+    High-level orchestrator for executing full multi-hop research workflows.
+    Plug-and-play compatible with any AI system or standalone scripts.
+
+    Supports:
+      - LIGHT LPCA (Bring-Your-Own-Key router)
+      - OpenAI / Azure OpenAI
+      - Anthropic Claude
+      - Groq
+      - Local Ollama / vLLM models
     """
 
     def __init__(
@@ -28,13 +36,13 @@ class LPCAResearchBridge:
         self.synthesizer = ResearchReportSynthesizer()
         self.max_pages = max_pages_per_query
 
-    def run_research(self, topic: str) -> ResearchReport:
+    def run(self, topic: str) -> ResearchReport:
         """
-        Executes end-to-end multi-hop research workflow for a given topic:
+        Executes end-to-end multi-hop research workflow:
         1. Generate multi-vector search plan
-        2. Fetch & scrape web pages concurrently/sequentially
+        2. Fetch & scrape web pages
         3. Cross-verify claims & audit hallucinations
-        4. Synthesize executive markdown report with inline citations
+        4. Synthesize executive Markdown report with inline citations
         """
         # Step 1: Plan
         sub_queries = self.planner.generate_plan(topic)
@@ -59,8 +67,8 @@ class LPCAResearchBridge:
         report = self.synthesizer.synthesize(topic, audit_result, scraped_pages)
         return report
 
-    def to_json_payload(self, report: ResearchReport) -> Dict[str, Any]:
-        """Converts ResearchReport object to structured JSON dict for API/LLM consumption."""
+    def to_json(self, report: ResearchReport) -> Dict[str, Any]:
+        """Converts ResearchReport to structured JSON for API or LLM consumption."""
         return {
             "topic": report.topic,
             "confidence_score": report.confidence_score,
@@ -69,3 +77,7 @@ class LPCAResearchBridge:
             "generated_at": report.generated_at,
             "markdown": report.markdown_content,
         }
+
+
+# Backward compatibility alias
+LPCAResearchBridge = DeepResearchAgent

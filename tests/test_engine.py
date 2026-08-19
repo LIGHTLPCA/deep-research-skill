@@ -1,5 +1,5 @@
 """
-Unit Tests for LIGHT LPCA Deep Research Engine.
+Unit Tests for Deep Research Skill Engine.
 """
 
 import pytest
@@ -7,12 +7,12 @@ from lpca_deep_research.planner import ResearchPlanner
 from lpca_deep_research.scraper import WebScraper, ScrapedPage
 from lpca_deep_research.auditor import FactAuditor
 from lpca_deep_research.synthesizer import ResearchReportSynthesizer
-from lpca_deep_research.lpca_bridge import LPCAResearchBridge
+from lpca_deep_research.lpca_bridge import DeepResearchAgent
 
 
 def test_research_planner():
     planner = ResearchPlanner(max_queries_per_dimension=2)
-    sub_queries = planner.generate_plan("LIGHT LPCA AI Framework")
+    sub_queries = planner.generate_plan("Large Language Model Safety")
 
     assert len(sub_queries) > 0
     dimensions = {sq.dimension for sq in sub_queries}
@@ -26,7 +26,7 @@ def test_web_scraper_cleaner():
     scraper = WebScraper()
     sample_html = """
     <html>
-        <head><title>Test AI Page</title></head>
+        <head><title>Test AI Research Page</title></head>
         <body>
             <nav>Navigation links</nav>
             <h1>Understanding Artificial Intelligence</h1>
@@ -37,7 +37,7 @@ def test_web_scraper_cleaner():
     """
     title, markdown = scraper.clean_html_to_markdown(sample_html)
 
-    assert title == "Test AI Page"
+    assert title == "Test AI Research Page"
     assert "Understanding Artificial Intelligence" in markdown
     assert "console.log" not in markdown
 
@@ -48,11 +48,11 @@ def test_fact_auditor():
         ScrapedPage(
             url="https://domain-a.org/doc",
             title="Doc A",
-            content_markdown="Artificial intelligence transforms enterprise software workflows.",
+            content_markdown="Artificial intelligence transforms enterprise software workflows at scale.",
             status_code=200,
             dimension="overview",
             word_count=50,
-            snippets=["Artificial intelligence transforms enterprise software workflows."],
+            snippets=["Artificial intelligence transforms enterprise software workflows at scale."],
         ),
         ScrapedPage(
             url="https://domain-b.org/doc",
@@ -71,10 +71,10 @@ def test_fact_auditor():
     assert len(result.citation_index) == 2
 
 
-def test_lpca_research_bridge():
-    bridge = LPCAResearchBridge(max_queries_per_dimension=1, max_pages_per_query=1)
-    report = bridge.run_research("LIGHT LPCA Architecture")
+def test_deep_research_agent():
+    agent = DeepResearchAgent(max_queries_per_dimension=1, max_pages_per_query=1)
+    report = agent.run("AI Hallucination Benchmarks")
 
-    assert report.topic == "LIGHT LPCA Architecture"
+    assert report.topic == "AI Hallucination Benchmarks"
     assert report.confidence_score > 0
     assert "# Deep Research Report" in report.markdown_content
