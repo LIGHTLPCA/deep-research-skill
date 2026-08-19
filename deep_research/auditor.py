@@ -25,6 +25,11 @@ class AuditResult:
     overall_confidence: float
     citation_index: Dict[int, str]
     flagged_hallucinations: List[str]
+    # False when no source could be retrieved at all (search blocked, network
+    # failure, zero results). Distinguishes "no evidence was gathered" from
+    # "evidence was gathered and scored low" - both would otherwise be a bare
+    # number. Defaults to True so pre-existing callers keep their behaviour.
+    has_evidence: bool = True
 
 
 class FactAuditor:
@@ -107,7 +112,11 @@ class FactAuditor:
         if verified_claims:
             avg_conf = sum(vc.confidence_score for vc in verified_claims) / len(verified_claims)
         else:
-            avg_conf = 0.50
+            # Nothing was verified, so there is nothing to be confident about.
+            # A neutral-looking 50% here would report a measurement failure as
+            # a half-trustworthy result; callers read `has_evidence` to tell
+            # "no sources" apart from "sources yielded no usable claims".
+            avg_conf = 0.0
 
         return AuditResult(
             topic=topic,
@@ -116,4 +125,5 @@ class FactAuditor:
             overall_confidence=round(avg_conf * 100, 1),
             citation_index=citation_index,
             flagged_hallucinations=flagged_hallucinations,
+            has_evidence=bool(url_list),
         )
