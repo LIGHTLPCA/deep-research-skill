@@ -32,5 +32,5 @@ jobs:
 
     - name: Validate CLI Execution
       run: |
-        python -m lpca_deep_research.cli "AI Research Validation" --out ci_report.md
+        python -m deep_research.cli "AI Research Validation" --out ci_report.md
         cat ci_report.md

@@ -93,7 +93,7 @@ deep-research "Large Language Model Hallucination Benchmarks 2026" --out report.
 ### Python API
 
 ```python
-from lpca_deep_research import DeepResearchAgent
+from deep_research import DeepResearchAgent
 
 agent = DeepResearchAgent(max_queries_per_dimension=1, max_pages_per_query=2)
 report = agent.run("Quantum Computing Error Correction")

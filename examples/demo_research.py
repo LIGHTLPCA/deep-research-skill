@@ -8,7 +8,7 @@ import sys
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from lpca_deep_research import DeepResearchAgent
+from deep_research import DeepResearchAgent
 
 
 def run_demo():

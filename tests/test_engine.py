@@ -3,11 +3,11 @@ Unit Tests for Deep Research Skill Engine.
 """
 
 import pytest
-from lpca_deep_research.planner import ResearchPlanner
-from lpca_deep_research.scraper import WebScraper, ScrapedPage
-from lpca_deep_research.auditor import FactAuditor
-from lpca_deep_research.synthesizer import ResearchReportSynthesizer
-from lpca_deep_research.lpca_bridge import DeepResearchAgent
+from deep_research.planner import ResearchPlanner
+from deep_research.scraper import WebScraper, ScrapedPage
+from deep_research.auditor import FactAuditor
+from deep_research.synthesizer import ResearchReportSynthesizer
+from deep_research.lpca_bridge import DeepResearchAgent
 
 
 def test_research_planner():

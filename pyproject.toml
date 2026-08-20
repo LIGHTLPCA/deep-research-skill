@@ -34,7 +34,7 @@ dev = [
 ]
 
 [project.scripts]
-deep-research = "lpca_deep_research.cli:main"
+deep-research = "deep_research.cli:main"
 
 [project.urls]
 "Homepage" = "https://github.com/LIGHTLPCA/deep-research-skill"
