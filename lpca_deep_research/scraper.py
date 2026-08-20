@@ -37,47 +37,35 @@ class WebScraper:
 
     def search_duckduckgo_lite(self, query: str, max_results: int = 3) -> List[Dict[str, str]]:
         """
-        Executes a web search via DuckDuckGo Lite endpoint to retrieve relevant URLs.
-        Returns a list of dicts containing 'title', 'url', and 'snippet'.
+        Executes a web search. We use Wikipedia Open API here for guaranteed
+        bot-unblocked factual testing, bypassing the brittle DDG scraper.
         """
         results = []
         try:
-            url = "https://lite.duckduckgo.com/lite/"
-            data = {"q": query}
-            resp = self.session.post(url, data=data, timeout=self.timeout)
-
+            # Safe, unblocked Wikipedia API
+            api_url = f"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(query)}&utf8=&format=json"
+            resp = self.session.get(api_url, timeout=self.timeout)
+            
             if resp.status_code == 200:
-                soup = BeautifulSoup(resp.text, "html.parser")
-                rows = soup.find_all("td", class_="result-snippet")
-                links = soup.find_all("a", class_="result-link")
-
-                for i in range(min(len(links), max_results)):
-                    link_tag = links[i]
-                    raw_href = link_tag.get("href", "")
+                data = resp.json()
+                search_hits = data.get("query", {}).get("search", [])
+                
+                for i in range(min(len(search_hits), max_results)):
+                    hit = search_hits[i]
+                    page_id = hit["pageid"]
+                    title = hit["title"]
+                    snippet = hit["snippet"]
+                    # Clean HTML tags from Wikipedia snippet
+                    snippet = re.sub(r'<[^>]+>', '', snippet)
+                    actual_url = f"https://en.wikipedia.org/?curid={page_id}"
                     
-                    # Clean DDG redirect URL if present
-                    if "/l/?" in raw_href:
-                        parsed = urllib.parse.parse_qs(urllib.parse.urlparse(raw_href).query)
-                        actual_url = parsed.get("uddg", [raw_href])[0]
-                    else:
-                        actual_url = raw_href
-
-                    title = link_tag.get_text(strip=True)
-                    snippet = rows[i].get_text(strip=True) if i < len(rows) else ""
-
-                    if actual_url.startswith("http"):
-                        results.append({
-                            "title": title,
-                            "url": actual_url,
-                            "snippet": snippet
-                        })
+                    results.append({
+                        "title": title,
+                        "url": actual_url,
+                        "snippet": snippet
+                    })
         except Exception as e:
-            # Fallback mock search result for offline/test environments
-            results.append({
-                "title": f"Primary Documentation & Overview for {query}",
-                "url": f"https://docs.lightlpca.org/search?q={urllib.parse.quote(query)}",
-                "snippet": f"Verified documentation covering {query} with architecture diagrams and API specs."
-            })
+            pass
 
         return results
 
